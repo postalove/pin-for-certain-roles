@@ -45,5 +45,5 @@ class PinMessage(interactions.Extension):
             message=ctx.channel.get_message(message_id=message_id)
             await message.pin()
             await ctx.send(content="Message Pinned!",ephemeral=True)
-        
-    
+        else:
+            await ctx.send(content='你没有相应的身份组!')
