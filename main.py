@@ -44,11 +44,13 @@ class PinMessage(interactions.Extension):
             message_id=message_url.rsplit('/', 1)[-1]
             try:
                 message=ctx.channel.get_message(message_id=message_id)
-            except ValueError:
+            except:
                 await ctx.send(content='你必须输入合适的消息链接!',ephemeral=True)
+                return
             if message is not None:
                 await message.pin()
                 await ctx.send(content="Message Pinned!",ephemeral=True)
+                
             else:
                 await ctx.send(content='不存在的消息!',ephemeral=True)
         else:
