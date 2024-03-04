@@ -31,10 +31,10 @@ class PinMessage(interactions.Extension):
     )
     
 
-    @module_base.subcommand("message", sub_cmd_description="Replace the description of this command")
+    @module_base.subcommand("message", sub_cmd_description="标注信息")
     @interactions.slash_option(
-        name = "消息链接",
-        description = "Option description",
+        name = "message_url",
+        description = "消息链接",
         required = True,
         opt_type = interactions.OptionType.STRING
     )
