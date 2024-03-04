@@ -34,7 +34,7 @@ class PinMessage(interactions.Extension):
     @module_base.subcommand("message", sub_cmd_description="标注信息")
     @interactions.slash_option(
         name = "message_url",
-        description = "消息链接",
+        description = "输入本频道或子区你需要标记的消息链接",
         required = True,
         opt_type = interactions.OptionType.STRING
     )
@@ -42,11 +42,14 @@ class PinMessage(interactions.Extension):
         pin_role=ctx.guild.get_role(1214173923206234142)
         if ctx.author.has_role(pin_role):
             message_id=message_url.rsplit('/', 1)[-1]
-            message=ctx.channel.get_message(message_id=message_id)
+            try:
+                message=ctx.channel.get_message(message_id=message_id)
+            except ValueError:
+                await ctx.send(content='你必须输入合适的消息链接!',ephemeral=True)
             if message is not None:
                 await message.pin()
                 await ctx.send(content="Message Pinned!",ephemeral=True)
             else:
                 await ctx.send(content='不存在的消息!',ephemeral=True)
         else:
-            await ctx.send(content='你没有相应的身份组!')
+            await ctx.send(content='你没有相应的身份组!',ephemeral= True)
