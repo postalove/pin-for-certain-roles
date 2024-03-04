@@ -43,7 +43,10 @@ class PinMessage(interactions.Extension):
         if ctx.author.has_role(pin_role):
             message_id=message_url.rsplit('/', 1)[-1]
             message=ctx.channel.get_message(message_id=message_id)
-            await message.pin()
-            await ctx.send(content="Message Pinned!",ephemeral=True)
+            if message is not None:
+                await message.pin()
+                await ctx.send(content="Message Pinned!",ephemeral=True)
+            else:
+                await ctx.send(content='不存在的消息!',ephemeral=True)
         else:
             await ctx.send(content='你没有相应的身份组!')
