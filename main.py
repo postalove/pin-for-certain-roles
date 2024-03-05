@@ -34,7 +34,7 @@ class PinMessage(interactions.Extension):
     @module_base.subcommand("message", sub_cmd_description="标注信息")
     @interactions.slash_option(
         name = "message_url",
-        description = "输入本频道或子区你需要标记的消息链接",
+        description = "输入本频道或子区你需要标记的消息链接,如果已标记,则会解除标记",
         required = True,
         opt_type = interactions.OptionType.STRING
     )
@@ -47,9 +47,14 @@ class PinMessage(interactions.Extension):
             except:
                 await ctx.send(content='你必须输入合适的消息链接!',ephemeral=True)
                 return
-            if message is not None:
-                await message.pin()
-                await ctx.send(content="Message Pinned!",ephemeral=True)
+            if message is not None :
+                if not message.pinned:
+
+                    await message.pin()
+                    await ctx.send(content="Message pinned!",ephemeral=True)
+                else:
+                    await message.unpin()
+                    await ctx.send(content="Message unpinned!",ephemeral=True)
                 
             else:
                 await ctx.send(content='不存在的消息!',ephemeral=True)
