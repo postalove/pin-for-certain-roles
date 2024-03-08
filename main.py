@@ -40,7 +40,9 @@ class PinMessage(interactions.Extension):
     )
     async def pin_mess(self, ctx: interactions.SlashContext, message_url: str):
         pin_role=ctx.guild.get_role(1214173923206234142)
-        if ctx.author.has_role(pin_role):
+        judge = interactions.utils.get(ctx.guild.roles,name='法官')
+        roles = [pin_role,judge]
+        if any( role in roles for role in ctx.author.roles):
             message_id=message_url.rsplit('/', 1)[-1]
             try:
                 message=ctx.channel.get_message(message_id=message_id)
